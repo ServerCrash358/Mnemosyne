@@ -152,6 +152,19 @@ so running the tests and demos costs nothing.)
 six runnable demos. Reference implementation, not yet production-hardened (see the
 scaling path in the design doc).
 
+## Future work (v2.2)
+
+- **Scale hardening** — parallel replicas with timeouts and early-quorum exit
+  (latency tracks the quorum-th fastest, not the slowest), thread-safe ledger
+  appends, and snapshotting for O(tail) state reconstruction.
+- **Real Claude-backed agents** — replace the toy replica callables with diverse
+  models/prompts so Byzantine independence is genuine rather than correlated.
+- **Merkle inclusion proofs + signed entries** — prove a single entry belongs to
+  a root in O(log n), and sign entries so tampering is *attributable*, not just
+  detectable.
+
+See [docs/ROADMAP.md](docs/ROADMAP.md) for the full list.
+
 ## License
 
 See [LICENSE](LICENSE).
