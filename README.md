@@ -41,16 +41,36 @@ Beyond "did a majority agree on the state?" (plain Raft), Mnemosyne answers:
 
 ## Status
 
-`v0.1` — all five core modules implemented, with 31 passing tests and two
-runnable demos. See [docs/ROADMAP.md](docs/ROADMAP.md) for what's next
-(inclusion proofs, real LLM/tool agents, multi-process replicas).
+`v2.0` — all five core modules, **verifier-first consensus**, 35 passing tests,
+four runnable demos.
+
+What v2.0 adds over the first cut:
+
+- **Pluggable normalizer** on `BFTConsensus` — collapses equivalent outputs to a
+  canonical form before voting, so `x**2/2 + C` and `0.5*x**2 + C` vote together.
+- **Pluggable verifier** — an oracle that filters to *provably-correct* outputs
+  *before* voting. Where a sound oracle exists, it is the real source of truth and
+  voting is demoted to a tiebreaker. Pipeline:
+  `derive -> verify -> normalize -> vote -> commit`.
+- **Snapshot-based compensation** for irreversible actions (the VM-delete case):
+  capture a pre-image into the ledger before executing, recreate from it on
+  rollback.
+
+Key principle made explicit: **voting yields agreement, not truth.** Truth must
+come from outside the swarm — a verifier, genuinely independent replicas, reality,
+or a human. Mnemosyne provides accountability and reversibility, not omniscience.
+
+See [docs/ROADMAP.md](docs/ROADMAP.md) for what's next (inclusion proofs, real
+LLM/tool agents, multi-process replicas).
 
 ## Quick start
 
 ```bash
 python -m venv .venv && .venv\Scripts\activate   # Windows
-pip install -e ".[dev]"
-pytest                                # 31 tests
+pip install -e ".[dev,examples]"
+pytest                                # 35 tests
 python examples/demo_ledger.py        # hash chain + tamper detection
 python examples/demo_full.py          # consensus -> ledger -> replay -> rollback
+python examples/demo_verifier.py      # verify -> normalize -> vote (integral oracle)
+python examples/demo_vm_rollback.py   # gate + snapshot compensation for a VM delete
 ```
