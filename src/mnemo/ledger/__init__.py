@@ -12,7 +12,13 @@ Public API:
     merkle_root         fold a list of leaf hashes into one root
 """
 
-from .entry import GENESIS_PARENT_HASH, Entry, compute_hash
+from .entry import (
+    GENESIS_PARENT_HASH,
+    Entry,
+    canonical_bytes,
+    compute_hash,
+    fingerprint,
+)
 from .ledger import Ledger, LedgerError, TamperError
 from .merkle import merkle_root
 
@@ -23,5 +29,7 @@ __all__ = [
     "TamperError",
     "merkle_root",
     "compute_hash",
+    "fingerprint",
+    "canonical_bytes",
     "GENESIS_PARENT_HASH",
 ]

@@ -41,13 +41,16 @@ Beyond "did a majority agree on the state?" (plain Raft), Mnemosyne answers:
 
 ## Status
 
-`v0.0.1` — scaffold only. See [docs/PREP.md](docs/PREP.md) for the background
-reading and [docs/ROADMAP.md](docs/ROADMAP.md) for the build order.
+`v0.1` — all five core modules implemented, with 31 passing tests and two
+runnable demos. See [docs/ROADMAP.md](docs/ROADMAP.md) for what's next
+(inclusion proofs, real LLM/tool agents, multi-process replicas).
 
-## Quick start (later)
+## Quick start
 
 ```bash
 python -m venv .venv && .venv\Scripts\activate   # Windows
 pip install -e ".[dev]"
-pytest
+pytest                                # 31 tests
+python examples/demo_ledger.py        # hash chain + tamper detection
+python examples/demo_full.py          # consensus -> ledger -> replay -> rollback
 ```

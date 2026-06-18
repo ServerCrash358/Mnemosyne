@@ -39,6 +39,16 @@ def canonical_bytes(obj: Any) -> bytes:
     ).encode("utf-8")
 
 
+def fingerprint(obj: Any) -> str:
+    """A stable SHA-256 fingerprint of any JSON-serializable value.
+
+    Used wherever we need to ask "are these two values the same?" by comparing
+    one short string instead of the whole structure — e.g. replay divergence
+    checks and consensus vote tallies.
+    """
+    return hashlib.sha256(canonical_bytes(obj)).hexdigest()
+
+
 def compute_hash(
     seq: int,
     timestamp: float,
